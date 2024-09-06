@@ -117,8 +117,8 @@ const Home = () => {
               checked={dontAskAgain}
               onChange={handleCheckboxChange}
             />
-            <label htmlFor="dontAskAgain" className="text-gray-700">
-              Don't ask again
+             <label htmlFor="dontAskAgain" className="text-gray-700">
+              Don&apos;t ask again
             </label>
           </div>
           <div className="flex space-x-4">
