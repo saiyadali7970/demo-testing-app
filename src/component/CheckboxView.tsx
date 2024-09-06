@@ -17,7 +17,7 @@ const CheckboxView: React.FC<CheckboxViewProps> = ({ checked, onChange }) => {
         onChange={onChange}
       />
       <label htmlFor="dontAskAgain" className="text-gray-700">
-        Don't ask again
+        Dont ask again
       </label>
     </div>
   );
