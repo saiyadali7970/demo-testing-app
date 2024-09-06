@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { RootState, AppDispatch } from '../lib/store/store';
 import { removeItems, setDontAskAgain } from '../lib/store/features/itemsSlice';
+import DialogView from '../component/DialogView'; // Import the new DialogView
 
 const Home = () => {
   const items = useSelector((state: RootState) => state.items.items);
@@ -10,7 +11,6 @@ const Home = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const [editMode, setEditMode] = useState(false); // Toggle edit mode
-  
   const [itemsToRemove, setItemsToRemove] = useState<number[]>([]); // Track items selected for removal
   const [showDialog, setShowDialog] = useState(false); // Toggle for confirmation dialog
 
@@ -69,8 +69,8 @@ const Home = () => {
           <li
             key={index}
             onClick={() => editMode && toggleItemRemoval(index)} // Allow selection for removal in edit mode
-            className={`flex justify-between items-center bg-white shadow-md p-4 rounded-lg ${
-              itemsToRemove.includes(index) ? 'bg-red-100' : ''
+            className={`flex justify-between cursor-pointer items-center bg-white shadow-md p-4 rounded-lg ${
+              itemsToRemove.includes(index) ? 'bg-red-700 text-white' : ''
             }`} // Highlight selected items
           >
             <span className="text-gray-800">{item}</span>
@@ -105,38 +105,14 @@ const Home = () => {
         </div>
       )}
 
-      {/* Confirmation Dialog */}
-      {showDialog && (
-        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
-          <h2 className="text-lg font-semibold mb-4">Are you sure you want to remove these items?</h2>
-          <div className="flex items-center mb-4">
-            <input
-              type="checkbox"
-              id="dontAskAgain"
-              className="mr-2"
-              checked={dontAskAgain}
-              onChange={handleCheckboxChange}
-            />
-             <label htmlFor="dontAskAgain" className="text-gray-700">
-              Don&apos;t ask again
-            </label>
-          </div>
-          <div className="flex space-x-4">
-            <button
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-              onClick={handleDialogSave}
-            >
-              Save
-            </button>
-            <button
-              className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
-              onClick={handleDialogCancel}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+      {/* DialogView Component */}
+      <DialogView
+        showDialog={showDialog}
+        dontAskAgain={dontAskAgain}
+        onSave={handleDialogSave}
+        onCancel={handleDialogCancel}
+        onCheckboxChange={handleCheckboxChange}
+      />
     </div>
   );
 };
